@@ -2,15 +2,20 @@
 
 // global variable
 const allProducts = [];
+let totalClicks = 0;
+let votesAllowed = 25;
+let imgSection = document.querySelector('section');
 let firstProduct = document.querySelector('section img:first-child');
 let secondProduct = document.querySelectorAll('section img')[1];
 let thirdProduct = document.querySelector('section img:last-child');
+let myButton = document.querySelector('div');
 
 // constructor function to make each product
 function Product(name, fileExt = 'jpg') {
   this.name = name;
   this.src = `img/${name}.${fileExt}`;
   this.views = 0;
+  this.clicks = 0;
   allProducts.push(this);
 }
 
@@ -64,5 +69,37 @@ function renderProducts() {
   renderEachProduct(thirdProduct, 2);
 }
 
+function handleClick(e) {
+  totalClicks++;
+  if (totalClicks === votesAllowed + 1) {
+    imgSection.removeEventListener('click', handleClick);
+  } else {
+    let productClicked = e.target.title;
+    for (let product of allProducts) {
+      if (product.name === productClicked) {
+        product.clicks++;
+        break;
+      }
+    }
+    renderProducts();
+  }
+}
+
+function renderResult() {
+  let myList = document.querySelector('ul');
+  for (let product of allProducts) {
+    let li = document.createElement('li');
+    li.textContent = `${product.name} had ${product.clicks} votes, and was seen ${product.views} times.`;
+    myList.appendChild(li);
+  }
+}
+
+function handleButtonClick() {
+  if (totalClicks === votesAllowed + 1) {
+    renderResult();
+  }
+}
+
 renderProducts();
-// console.log(allProducts);
+imgSection.addEventListener('click', handleClick);
+myButton.addEventListener('click', handleButtonClick);
