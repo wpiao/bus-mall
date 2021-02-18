@@ -5,42 +5,28 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-section {
+section#images {
+  display: flex;
+  justify-content: space-between;
   margin-top: 20px;
-  border: 2px solid bisque;
 }
 
 section img {
   border: 2px solid bisque;
-  width: 310px;
+  width: 316px;
   height: 250px;
-}
-
-main div {
-  background-color: green;
-  width: 100px;
-  margin: auto;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding: 5px;
-}
-
-main div:hover {
-  cursor: pointer;
 }
 
 section img:hover {
   cursor: pointer;
 }
 
-main ul {
-  /* border: 2px solid bisque; */
-  width: max-content;
-  margin: auto;
+section#canvas {
+  margin-top: 20px;
+  margin-bottom: 50px;
 }
 
-li {
-  padding: 5px;
-  list-style-position: inside;
-  list-style-type: disc;
+canvas {
+  display: flex;
+  margin: auto;
 }

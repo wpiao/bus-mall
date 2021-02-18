@@ -2,13 +2,15 @@
 
 // global variable
 const allProducts = [];
+const uniqIndexCount = 6;
+const holdingArr = [];
+const ctx = document.getElementById('myChart').getContext('2d');
 let totalClicks = 0;
 let votesAllowed = 25;
 let imgSection = document.querySelector('section');
 let firstProduct = document.querySelector('section img:first-child');
 let secondProduct = document.querySelectorAll('section img')[1];
 let thirdProduct = document.querySelector('section img:last-child');
-let myButton = document.querySelector('div');
 
 // constructor function to make each product
 function Product(name, fileExt = 'jpg') {
@@ -46,33 +48,36 @@ function getRandomIndex() {
 }
 
 function renderProducts() {
-  let holdingArr = [];
-  function getThreeUniqIndexes() { // push three uniq indexes to holdingArr
-    for (let i = 0; i < 3; i++) {
+  function getSixUniqIndexes() { // unshift six uniq indexes to holdingArr
+    while (holdingArr.length < uniqIndexCount) {
       let randomIndex = getRandomIndex();
       while (holdingArr.includes(randomIndex)) {
         randomIndex = getRandomIndex();
       }
-      holdingArr.push(randomIndex);
+      holdingArr.unshift(randomIndex);
     }
   }
 
   function renderEachProduct(img, index) {
-    img.src = allProducts[holdingArr[index]].src;
-    img.title = allProducts[holdingArr[index]].name;
-    allProducts[holdingArr[index]].views++;
+    img.src = allProducts[index].src;
+    img.title = allProducts[index].name;
+    allProducts[index].views++;
   }
 
-  getThreeUniqIndexes(); // now holdingArr holds three uniq indexes
-  renderEachProduct(firstProduct, 0);
-  renderEachProduct(secondProduct, 1);
-  renderEachProduct(thirdProduct, 2);
+  getSixUniqIndexes(); // now holdingArr holds six uniq indexes
+  let firstProductIndex = holdingArr.pop();
+  let secondProductIndex = holdingArr.pop();
+  let thirdProductIndex = holdingArr.pop();
+  renderEachProduct(firstProduct, firstProductIndex);
+  renderEachProduct(secondProduct, secondProductIndex);
+  renderEachProduct(thirdProduct, thirdProductIndex);
 }
 
 function handleClick(e) {
   totalClicks++;
   if (totalClicks === votesAllowed + 1) {
     imgSection.removeEventListener('click', handleClick);
+    renderBarChart();
   } else {
     let productClicked = e.target.title;
     for (let product of allProducts) {
@@ -85,21 +90,49 @@ function handleClick(e) {
   }
 }
 
-function renderResult() {
-  let myList = document.querySelector('ul');
-  for (let product of allProducts) {
-    let li = document.createElement('li');
-    li.textContent = `${product.name} had ${product.clicks} votes, and was seen ${product.views} times.`;
-    myList.appendChild(li);
-  }
-}
+function renderBarChart() {
+  const productNamesArr = [];
+  const viewsArr = [];
+  const clicksArr = [];
 
-function handleButtonClick() {
-  if (totalClicks === votesAllowed + 1) {
-    renderResult();
+  for (let product of allProducts) {
+    productNamesArr.push(product.name);
+    viewsArr.push(product.views);
+    clicksArr.push(product.clicks);
   }
+
+  // create a bar chart
+  // eslint-disable-next-line no-undef
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: productNamesArr,
+      datasets: [{
+        label: '# of Views',
+        data: viewsArr,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      },
+      {
+        label: '# of Clicks',
+        data: clicksArr,
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero: true
+          }
+        }]
+      }
+    }
+  });
 }
 
 renderProducts();
 imgSection.addEventListener('click', handleClick);
-myButton.addEventListener('click', handleButtonClick);
