@@ -16,31 +16,6 @@ section img {
   height: 250px;
 }
 
-main div {
-  background-color: green;
-  width: 100px;
-  margin: auto;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  padding: 5px;
-}
-
-main div:hover {
-  cursor: pointer;
-}
-
 section img:hover {
   cursor: pointer;
-}
-
-main ul {
-  /* border: 2px solid bisque; */
-  width: max-content;
-  margin: auto;
-}
-
-li {
-  padding: 5px;
-  list-style-position: inside;
-  list-style-type: disc;
 }
