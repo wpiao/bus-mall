@@ -5,17 +5,28 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-section {
+section#images {
+  display: flex;
+  justify-content: space-between;
   margin-top: 20px;
-  border: 2px solid bisque;
 }
 
 section img {
   border: 2px solid bisque;
-  width: 310px;
+  width: 316px;
   height: 250px;
 }
 
 section img:hover {
   cursor: pointer;
+}
+
+section#canvas {
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+canvas {
+  display: flex;
+  margin: auto;
 }
