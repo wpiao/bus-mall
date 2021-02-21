@@ -1,12 +1,12 @@
 'use strict';
 
 // global variable
-const allProducts = [];
+let allProducts = [];
 const uniqIndexCount = 6;
 const holdingArr = [];
 const ctx = document.getElementById('myChart').getContext('2d');
 let totalClicks = 0;
-let votesAllowed = 25;
+let votesAllowed = 5;
 let imgSection = document.querySelector('section');
 let firstProduct = document.querySelector('section img:first-child');
 let secondProduct = document.querySelectorAll('section img')[1];
@@ -21,27 +21,33 @@ function Product(name, fileExt = 'jpg') {
   allProducts.push(this);
 }
 
-// Instantiate all products
-new Product('bag');
-new Product('banana');
-new Product('bathroom');
-new Product('boots');
-new Product('breakfast');
-new Product('bubblegum');
-new Product('chair');
-new Product('cthulhu');
-new Product('dog-duck');
-new Product('dragon');
-new Product('pen');
-new Product('pet-sweep');
-new Product('scissors');
-new Product('shark');
-new Product('sweep', 'png');
-new Product('tauntaun');
-new Product('unicorn');
-new Product('usb', 'gif');
-new Product('water-can');
-new Product('wine-glass');
+const retrievedProdcuts = localStorage.getItem('products');
+if (!retrievedProdcuts) {
+  // Instantiate all products
+  new Product('bag');
+  new Product('banana');
+  new Product('bathroom');
+  new Product('boots');
+  new Product('breakfast');
+  new Product('bubblegum');
+  new Product('chair');
+  new Product('cthulhu');
+  new Product('dog-duck');
+  new Product('dragon');
+  new Product('pen');
+  new Product('pet-sweep');
+  new Product('scissors');
+  new Product('shark');
+  new Product('sweep', 'png');
+  new Product('tauntaun');
+  new Product('unicorn');
+  new Product('usb', 'gif');
+  new Product('water-can');
+  new Product('wine-glass');
+} else {
+  const parsedProducts = JSON.parse(retrievedProdcuts);
+  allProducts = parsedProducts; // persistent
+}
 
 function getRandomIndex() {
   return Math.floor(Math.random() * allProducts.length);
@@ -78,6 +84,8 @@ function handleClick(e) {
   if (totalClicks === votesAllowed + 1) {
     imgSection.removeEventListener('click', handleClick);
     renderBarChart();
+    const stringifiedAllProducts = JSON.stringify(allProducts);
+    localStorage.setItem('products', stringifiedAllProducts);
   } else {
     let productClicked = e.target.title;
     for (let product of allProducts) {
