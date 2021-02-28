@@ -83,6 +83,7 @@ function handleClick(e) {
   totalClicks++;
   if (totalClicks === votesAllowed + 1) {
     imgSection.removeEventListener('click', handleClick);
+    document.getElementById('canvas').style.display = 'flex';
     renderBarChart();
     const stringifiedAllProducts = JSON.stringify(allProducts);
     localStorage.setItem('products', stringifiedAllProducts);
