@@ -11,6 +11,9 @@ In this lab, I removed the button and the `show results section` and add a chart
 ## Lab: 13 - Add local storage to BusMall 
 In this lab, I implemented data persistence for the views and votes so that the app can keep track of aggregate number of views and votes.  
 
+## Lab: 15b - Finish with the BusMall app 
+In this lab, I added a header and a footer and styled them. I hidden the canvas and re-display it when the user complete the voting so that there won't be a large empty space between the image section and the footer. 
+
 ## References
 [CSS Reset](https://meyerweb.com/eric/tools/css/reset/)
 [Chart.js](https://www.chartjs.org/docs/latest/)
