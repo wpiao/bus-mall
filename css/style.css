@@ -15,6 +15,7 @@ section img {
   border: 2px solid bisque;
   width: 316px;
   height: 250px;
+  margin-bottom: 20px;
 }
 
 section img:hover {
@@ -23,10 +24,28 @@ section img:hover {
 
 section#canvas {
   margin-top: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 canvas {
   display: flex;
   margin: auto;
+}
+
+section#canvas {
+  display: none;
+}
+
+header {
+  margin-top: 20px;
+  background-color: rgb(212, 139, 28);
+  padding: 10px;
+}
+header > h1 {
+  font-size: 2em;
+  text-align: center;
+}
+
+footer {
+  text-align: center;
 }
